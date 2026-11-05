@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import AdminGuard from './AdminGuard.jsx';
 import OrdersPanel from './OrdersPanel.jsx';
 import CoverPanel from './CoverPanel.jsx';
+import AdminsPanel from './AdminsPanel.jsx';
 
 export default function Admin() {
   const [tab, setTab] = useState('orders');
@@ -26,6 +27,9 @@ export default function Admin() {
               <button type="button" className={tab === 'cover' ? 'on' : ''} onClick={() => setTab('cover')}>
                 Cover page
               </button>
+              <button type="button" className={tab === 'admins' ? 'on' : ''} onClick={() => setTab('admins')}>
+                Admins
+              </button>
             </nav>
             <div className="admin-actions">
               <Link className="btn sm" to="/">
@@ -36,7 +40,7 @@ export default function Admin() {
               </button>
             </div>
           </header>
-          <main className="wrap admin-main">{tab === 'orders' ? <OrdersPanel /> : <CoverPanel />}</main>
+          <main className="wrap admin-main">{tab === 'orders' ? <OrdersPanel /> : tab === 'cover' ? <CoverPanel /> : <AdminsPanel myEmail={email} />}</main>
         </>
       )}
     </AdminGuard>

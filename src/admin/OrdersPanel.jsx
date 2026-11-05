@@ -103,8 +103,20 @@ function OrderCard({ order, onUpdate, onDelete }) {
     }
   }
 
+  async function openFile() {
+    setBusy('file');
+    setMsg({ type: '', text: '' });
+    const { data, error } = await supabase.storage.from('order-files').createSignedUrl(order.file_path, 600, {
+      download: true,
+    });
+    setBusy('');
+    if (error || !data?.signedUrl) setMsg({ type: 'error', text: error?.message || 'Could not open the file.' });
+    else window.location.href = data.signedUrl;
+  }
+
   async function remove() {
     setBusy('delete');
+    if (order.file_path) await supabase.storage.from('order-files').remove([order.file_path]);
     const { error } = await supabase.from('orders').delete().eq('id', order.id);
     setBusy('');
     if (error) setMsg({ type: 'error', text: error.message });
@@ -164,9 +176,17 @@ function OrderCard({ order, onUpdate, onDelete }) {
           ) : null}
         </dl>
 
-        {order.description || order.file_link ? (
+        {order.description || order.file_link || order.file_path ? (
           <div className="notes">
             {order.description ? <p>{order.description}</p> : null}
+            {order.file_path ? (
+              <p>
+                <button className="btn sm cyan" type="button" disabled={!!busy} onClick={openFile}>
+                  {busy === 'file' ? 'Opening…' : 'Download uploaded file'}
+                </button>{' '}
+                <span className="help wrapany">{order.file_path.split('/').slice(1).join('/')}</span>
+              </p>
+            ) : null}
             {order.file_link ? (
               <p>
                 <a href={order.file_link} target="_blank" rel="noopener noreferrer">
@@ -315,6 +335,8 @@ export default function OrdersPanel() {
 
   async function clearFinished() {
     setClearMsg('');
+    const paths = orders.filter((o) => o.status === 'finished' && o.file_path).map((o) => o.file_path);
+    if (paths.length) await supabase.storage.from('order-files').remove(paths);
     const { error: err } = await supabase.from('orders').delete().eq('status', 'finished');
     setConfirmClear(false);
     if (err) setClearMsg(err.message);

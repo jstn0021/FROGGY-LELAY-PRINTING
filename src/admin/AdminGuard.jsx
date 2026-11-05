@@ -63,7 +63,8 @@ export default function AdminGuard({ children }) {
         <div className="card narrow">
           <h1 className="page-title">Not an admin account</h1>
           <p>
-            You are logged in as <b>{email}</b>, but this email is not in the admins table.
+            You are logged in as <b>{email}</b>, but this account is not approved yet. Ask the store
+            owner to add your email in <b>Admin → Admins</b>, then sign in again.
           </p>
           <div className="actions">
             <button className="btn" type="button" onClick={signOut}>

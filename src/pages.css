@@ -128,3 +128,9 @@
   .tabs { order: 3; width: 100%; justify-content: center; }
   .summary, .preview { position: static; }
 }
+
+/* file upload + small text buttons */
+.file-input { padding: 0.6rem; background: #fff; }
+.linklike { background: none; border: 0; padding: 0; font: inherit; color: var(--cyan); text-decoration: underline; cursor: pointer; }
+.linklike:disabled { opacity: 0.5; cursor: not-allowed; }
+.field > .notice { margin-top: 0.4rem; }
