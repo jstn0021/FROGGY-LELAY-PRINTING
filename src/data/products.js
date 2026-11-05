@@ -1,122 +1,103 @@
-// Single source of truth for the service cards and the quote estimator.
-// Edit names, prices and turnaround here and both update.
-//   bulk: quantity that earns 10% off (null = no bulk discount)
+// Prices come from the shop's two price lists (Photocopying & Printing, Extra Services).
+// Edit here and the price list on the home page and the order form both update.
 
-export const BULK_DISCOUNT = 0.1;
+export const GROUPS = [
+  { id: 'print', title: 'Photocopying & printing' },
+  { id: 'extra', title: 'Extra services' },
+];
+
+const bySize = (short, a4, long) => [
+  { label: 'Short bond paper', price: short },
+  { label: 'A4 paper', price: a4 },
+  { label: 'Long bond paper', price: long },
+];
 
 export const products = [
   {
-    id: 'doc',
-    name: 'Documents & photocopy',
+    id: 'bw-copy',
+    group: 'print',
+    name: 'Black & white photocopy / xerox',
     noun: 'page',
     plural: 'pages',
-    bulk: 100,
-    lead: 'Same day',
-    desc: 'School requirements, reports and forms. Bring a file or a hard copy.',
+    desc: 'Photocopy of your documents in black and white.',
+    opts: bySize(3, 3, 4),
+  },
+  {
+    id: 'color-copy',
+    group: 'print',
+    name: 'Colored photocopy / xerox',
+    noun: 'page',
+    plural: 'pages',
+    desc: 'Photocopy of your documents in full color.',
+    opts: bySize(5, 5, 6),
+  },
+  {
+    id: 'bw-text',
+    group: 'print',
+    name: 'B&W printing, text only',
+    noun: 'page',
+    plural: 'pages',
+    desc: 'Black and white print, whole page, text only.',
+    opts: bySize(4, 4, 6),
+  },
+  {
+    id: 'bw-image',
+    group: 'print',
+    name: 'B&W printing, with image',
+    noun: 'page',
+    plural: 'pages',
+    desc: 'Black and white print, whole page, with images.',
+    opts: bySize(10, 10, 12),
+  },
+  {
+    id: 'color-text',
+    group: 'print',
+    name: 'Colored printing, text with light image',
+    noun: 'page',
+    plural: 'pages',
+    desc: 'Color print for text with a light image.',
+    opts: bySize(7, 7, 9),
+  },
+  {
+    id: 'color-full',
+    group: 'print',
+    name: 'Colored printing, full-page image',
+    noun: 'page',
+    plural: 'pages',
+    desc: 'Color print with a full-page colored image.',
+    opts: bySize(15, 15, 20),
+  },
+  {
+    id: 'egov',
+    group: 'extra',
+    name: 'E-Gov ID print & resize',
+    noun: 'print',
+    plural: 'prints',
+    desc: 'Colored ID print, resized to 2.13 × 3.37 inches.',
     opts: [
-      { label: 'B&W, Short or A4', price: 2 },
-      { label: 'B&W, Legal', price: 3 },
-      { label: 'Full color, Short or A4', price: 8 },
-      { label: 'Full color, Legal', price: 10 },
+      { label: 'Short / A4 paper', price: 5 },
+      { label: 'Long paper', price: 6 },
     ],
   },
   {
-    id: 'tarp',
-    name: 'Tarpaulin',
-    noun: 'piece',
-    plural: 'pieces',
-    bulk: null,
-    lead: '1 to 2 days',
-    desc: 'Banners for events, sales and greetings. Eyelets and hemmed edges included.',
-    opts: [
-      { label: '2 × 3 ft', price: 96 },
-      { label: '3 × 5 ft', price: 240 },
-      { label: '4 × 6 ft', price: 384 },
-      { label: '5 × 8 ft', price: 640 },
-    ],
-  },
-  {
-    id: 'cards',
-    name: 'Business cards',
-    noun: 'card',
-    plural: 'cards',
-    bulk: 300,
-    lead: '1 to 2 days',
-    desc: 'Standard 90 × 55 mm, printed on both sides.',
-    opts: [
-      { label: 'Matte, 300 gsm', price: 4 },
-      { label: 'Glossy, 300 gsm', price: 4 },
-      { label: 'Soft-touch laminated', price: 7 },
-    ],
-  },
-  {
-    id: 'stickers',
-    name: 'Stickers & labels',
+    id: 'glossy',
+    group: 'extra',
+    name: 'A4 glossy paper, full image',
     noun: 'sheet',
     plural: 'sheets',
-    bulk: 20,
-    lead: '1 to 2 days',
-    desc: 'Product labels, logo stickers and packaging seals on A4 sheets.',
+    desc: 'Printed on A4 glossy paper.',
     opts: [
-      { label: 'A4 glossy sticker paper', price: 35 },
-      { label: 'A4 waterproof vinyl', price: 55 },
-      { label: 'A4 vinyl, die-cut', price: 80 },
-    ],
-  },
-  {
-    id: 'flyers',
-    name: 'Flyers & posters',
-    noun: 'piece',
-    plural: 'pieces',
-    bulk: 100,
-    lead: 'Same day to 1 day',
-    desc: 'Full color, single or double sided. Cut to size on request.',
-    opts: [
-      { label: 'A5 flyer, 120 gsm', price: 4 },
-      { label: 'A4 flyer, 120 gsm', price: 7 },
-      { label: 'A3 poster, 150 gsm', price: 35 },
-      { label: 'A2 poster, 150 gsm', price: 120 },
-    ],
-  },
-  {
-    id: 'id',
-    name: 'ID & lamination',
-    noun: 'piece',
-    plural: 'pieces',
-    bulk: null,
-    lead: 'Same day',
-    desc: 'Protect certificates and IDs, or print a new PVC ID card.',
-    opts: [
-      { label: 'ID lamination', price: 15 },
-      { label: 'Short or A4 lamination', price: 30 },
-      { label: 'PVC ID card, printed', price: 80 },
-    ],
-  },
-  {
-    id: 'thesis',
-    name: 'Thesis binding',
-    noun: 'copy',
-    plural: 'copies',
-    bulk: null,
-    lead: '2 to 3 days',
-    desc: 'Clean binding for thesis, capstone and research manuscripts.',
-    opts: [
-      { label: 'Softbound', price: 120 },
-      { label: 'Hardbound, black cover', price: 450 },
-      { label: 'Hardbound, gold lettering', price: 550 },
-    ],
-  },
-  {
-    id: 'custom',
-    name: 'Mugs & shirts',
-    noun: 'piece',
-    plural: 'pieces',
-    bulk: 12,
-    lead: '2 to 3 days',
-    desc: 'Custom prints for events, teams and gifts.',
-    opts: [
-      { label: 'Sublimation mug, 11 oz', price: 180 },
-      { label: 'T-shirt, front print', price: 280 },
+      { label: 'Certificate', price: 25 },
+      { label: 'Full picture only', price: 35 },
+      { label: '2 pcs passport ID', price: 50 },
+      { label: '2 pcs 2×2 + 4 pcs 1×1', price: 50 },
     ],
   },
 ];
+
+export const findProduct = (id) => products.find((p) => p.id === id);
+
+// unit price × quantity, minus discount percent, rounded to centavos
+export function computeTotal(unit, qty, discountPct = 0) {
+  return Math.round(unit * qty * (1 - discountPct / 100) * 100) / 100;
+}

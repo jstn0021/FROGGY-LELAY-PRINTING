@@ -1,25 +1,36 @@
+import { useEffect } from 'react';
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header.jsx';
-import Hero from './components/Hero.jsx';
-import Services from './components/Services.jsx';
-import Estimator from './components/Estimator.jsx';
-import FilePrep from './components/FilePrep.jsx';
-import Steps from './components/Steps.jsx';
-import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
+import Home from './pages/Home.jsx';
+import Order from './pages/Order.jsx';
+import AdminLogin from './admin/AdminLogin.jsx';
+import Admin from './admin/Admin.jsx';
 
-export default function App() {
+function PublicLayout() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (!hash) window.scrollTo(0, 0);
+  }, [pathname, hash]);
   return (
     <>
       <Header />
-      <main id="top">
-        <Hero />
-        <Services />
-        <Estimator />
-        <FilePrep />
-        <Steps />
-        <Contact />
-      </main>
+      <Outlet />
       <Footer />
     </>
+  );
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route element={<PublicLayout />}>
+        <Route index element={<Home />} />
+        <Route path="order" element={<Order />} />
+      </Route>
+      <Route path="admin/login" element={<AdminLogin />} />
+      <Route path="admin" element={<Admin />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }

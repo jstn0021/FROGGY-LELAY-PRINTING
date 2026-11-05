@@ -1,14 +1,23 @@
 import SectionHead from './SectionHead.jsx';
 
 const steps = [
-  ['Send your file', 'Message us the PDF with your order summary, or bring it on a flash drive.'],
-  ['Confirm the proof', 'We send a preview and the final price. Print starts once you say yes.'],
-  ['Pick up or delivery', 'Pay on pickup or through GCash. Delivery is arranged for larger orders.'],
+  [
+    'Fill out the order form',
+    'Pick what you need, add your name and email, and describe your print. Add a link to your file if you have one.',
+  ],
+  [
+    'We work on it',
+    'The shop checks your file and prints it. Final price is confirmed by the shop.',
+  ],
+  [
+    'Get an email, then pick up',
+    'When your order is ready, we email you the price and discount, if any. Show your order reference at pickup.',
+  ],
 ];
 
 export default function Steps() {
   return (
-    <section className="band alt" id="order">
+    <section id="order">
       <div className="wrap section">
         <SectionHead eyebrow="How to order" title="Tatlong hakbang" />
         <ol className="steps">

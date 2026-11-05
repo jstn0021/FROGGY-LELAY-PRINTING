@@ -1,4 +1,5 @@
-import { products } from '../data/products.js';
+import { Link } from 'react-router-dom';
+import { GROUPS, products } from '../data/products.js';
 import { peso } from '../utils/format.js';
 import SectionHead from './SectionHead.jsx';
 
@@ -17,31 +18,37 @@ function ServiceCard({ product }) {
         {product.opts.map((o) => (
           <div key={o.label}>
             <dt>{o.label}</dt>
-            <dd>
-              {peso(o.price)} / {product.noun}
-            </dd>
+            <dd>{peso(o.price)}</dd>
           </div>
         ))}
       </dl>
-      <p className="lead">
-        Turnaround <b>{product.lead}</b>
-      </p>
+      <Link className="svc-link" to={`/order?service=${product.id}`}>
+        Order this
+      </Link>
     </article>
   );
 }
 
 export default function Services() {
   return (
-    <section className="band" id="services" style={{ marginTop: 'clamp(2.5rem,6vw,4.5rem)' }}>
+    <section id="services" style={{ marginTop: 'clamp(2.5rem,6vw,4.5rem)' }}>
       <div className="wrap section">
-        <SectionHead eyebrow="Services and rates" title="What we print">
-          Sample rates in pesos. Final price is confirmed after we check your file.
+        <SectionHead eyebrow="Price list" title="What we offer">
+          Prices are per page, print or sheet as shown. Any discount is added by the shop and shown
+          in your pickup email.
         </SectionHead>
-        <div className="grid">
-          {products.map((p) => (
-            <ServiceCard key={p.id} product={p} />
-          ))}
-        </div>
+        {GROUPS.map((g) => (
+          <div className="group" key={g.id}>
+            <h3 className="group-title">{g.title}</h3>
+            <div className="grid">
+              {products
+                .filter((p) => p.group === g.id)
+                .map((p) => (
+                  <ServiceCard key={p.id} product={p} />
+                ))}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

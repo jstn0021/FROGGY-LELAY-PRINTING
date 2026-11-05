@@ -20,7 +20,7 @@ export default function Estimator() {
   const percent = Math.round(BULK_DISCOUNT * 100);
 
   const summary = [
-    'Order request: Tinta Printing',
+    'Order request: Lelay Store, Ink & Crafts',
     `Item: ${product.name}, ${option.label}`,
     `Quantity: ${qty} ${word}`,
     `Estimate: ${peso(total)}${discounted ? ` (${percent}% bulk discount)` : ''}`,

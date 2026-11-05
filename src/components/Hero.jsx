@@ -1,61 +1,49 @@
-const facts = [
-  ['Same day', 'Documents, lamination and IDs'],
-  ['Up to 5 × 8 ft', 'Tarpaulin with eyelets'],
-  ['300 gsm', 'Business cards, matte or glossy'],
-];
+import { Link } from 'react-router-dom';
+import Headline from './Headline.jsx';
 
-export default function Hero() {
+export default function Hero({ cover }) {
   return (
     <div className="wrap">
+      {cover.banner_on && cover.banner_text ? (
+        <div className="banner" role="status">
+          <span className="banner-tag">New</span>
+          <span>{cover.banner_text}</span>
+          <Link to="/order">Order now</Link>
+        </div>
+      ) : null}
+
       <section className="hero" aria-labelledby="h1">
         <div>
-          <p className="eyebrow">Digital &amp; large format printing</p>
-          <h1 id="h1" style={{ marginTop: '0.9rem' }}>
-            Print na <em>malinaw.</em> Kahit last minute.
+          <p className="eyebrow">{cover.eyebrow}</p>
+          <h1 id="h1">
+            <Headline text={cover.headline} highlight={cover.highlight} />
           </h1>
-          <p className="lede">
-            Documents, tarpaulin, business cards, stickers at thesis binding. Ipadala ang file mo,
-            kunin mo mamaya o ipa-deliver.
-          </p>
+          <p className="lede">{cover.subtext}</p>
           <div className="actions">
-            <a className="btn primary" href="#quote">
-              Get a quote
-            </a>
+            <Link className="btn primary" to="/order">
+              Order now
+            </Link>
             <a className="btn" href="#services">
-              See rates
+              See price list
             </a>
           </div>
         </div>
 
-        <figure className="sheet" style={{ margin: 0 }}>
-          <svg
-            viewBox="0 0 400 400"
-            role="img"
-            aria-label="Cyan, magenta and yellow circles overprinting on a press sheet with crop marks and a registration target"
-          >
-            <path
-              className="mark"
-              d="M30 0V22M370 0V22M30 378V400M370 378V400M0 30H22M0 370H22M378 30H400M378 370H400"
-            />
-            <circle className="mark" cx="200" cy="12" r="6" />
-            <path className="mark" d="M192 12H208M200 4V20" />
-            <circle className="c" cx="150" cy="150" r="100" />
-            <circle className="m" cx="250" cy="150" r="100" />
-            <circle className="y" cx="200" cy="235" r="100" />
-          </svg>
-          <figcaption>
-            <span style={{ '--sw': 'var(--c)' }}>Cyan</span>
-            <span style={{ '--sw': 'var(--m)' }}>Magenta</span>
-            <span style={{ '--sw': 'var(--y)' }}>Yellow</span>
-          </figcaption>
+        <figure className="sheet">
+          <img
+            src="/logo.jpg"
+            alt="Lelay Store Ink & Crafts logo: a paw print with cyan, yellow and pink toes"
+            width="640"
+            height="640"
+          />
         </figure>
       </section>
 
       <div className="facts">
-        {facts.map(([big, small]) => (
-          <p key={big}>
-            <b>{big}</b>
-            {small}
+        {cover.facts.map((f, i) => (
+          <p key={i}>
+            <b>{f.title}</b>
+            {f.text}
           </p>
         ))}
       </div>
