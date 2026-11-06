@@ -1,11 +1,11 @@
-import SectionHead from './SectionHead.jsx';
+import SectionHead from "./SectionHead.jsx";
 
 // Placeholder details. Replace with the shop's real ones.
 const details = [
-  ['Phone / Viber', '0900 000 0000'],
-  ['Messenger', 'm.me/your-shop-page'],
-  ['Email', 'hello@your-shop.example'],
-  ['Address', 'Your shop address here'],
+  ["Phone / Viber", "0907 359 2088"],
+  ["Messenger", "@camille.gragasin.33"],
+  ["Email", "camillegg.24@gmail.com"],
+  ["Address", "Panasahan Malolos Bulacan"],
 ];
 
 export default function Contact() {
@@ -18,8 +18,8 @@ export default function Contact() {
             title="Dumaan o mag-message"
             style={{ marginBottom: 0 }}
           >
-            Walk-ins are welcome. For tarpaulin and bulk orders, message first so we can confirm
-            the schedule.
+            Walk-ins are welcome. For bulk orders, message first so we can
+            confirm the schedule.
           </SectionHead>
 
           <dl>
